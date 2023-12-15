@@ -15,11 +15,15 @@
         <v-select
             label="Año de publicacion:"
             v-model="anhopub"
+            required
+            :rules = "reglasPublicacion"
             :items="anhos"
         ></v-select>
         <v-text-field
             label="Genero"
             v-model="genero"
+            required
+            :rules="reglasGenero"
         ></v-text-field>
         <v-btn
             @click="submit"
@@ -41,6 +45,13 @@ export default{
         anhopub: '',
         reglasNombre:[
             v => !!v || 'La pelicula es requerida',
+        ],
+        reglasNombre:[
+            v => !!v || 'Genero de pelicula requerido',
+            v => (v && v.length <= 80) || 'Genero debe ser menor o igual a 80 caracteres',
+        ],
+        reglasPublicacion:[
+            v => !!v || 'El anho de publicacion es requerido',
         ],
         select: null,
         anhos: [
@@ -70,10 +81,19 @@ export default{
                     },
                 })
                 .then(() => {
+                    this.$swal(
+                        'Grandioso!',
+                        'Pelicula guardada satisfactoriamente',
+                        'success',
+                    )
                     this.$router.push({ name: 'Inicio' });
                     this.$refs.formulario.reset();
                 })
                 .catch(() => {
+                    this.$swal(
+                        'Oh no!!',
+                        
+                    )
                 });
             }
             return true;

@@ -29,5 +29,73 @@
   </template>
 
 <script>
+import axios from 'axios';
 import '../assets/stylesheets/main.css';
+
+export default{
+  data(){
+    return{
+      mensaje: 'Hola, Como te va hoy?',
+    };
+  },
+  methods: {
+    responder(){
+      async
+    }
+  }
+}
+</script>
+
+<template>
+  <v-layout row wrap>
+    <v-flex xs4 v-for="pelicula in peliculas"
+    :key="pelicula_id">
+    <v-card>
+      <v-card-title primary-title>
+        <div>
+          <div class="headline">
+            <v-btn v-bind_to="`/peliculas/${pelicula._id}`">{{ pelicula.nombre }}</v-btn>
+          </div>
+            <span class="gray--text">{{ 
+            pelicula.anhopub }} &middot; {{ 
+            pelicula.genero }}</span>
+        </div>
+      </v-card-title>
+      <v-card-text>
+        {{ pelicula.sinopsis }}
+      </v-card-text>
+    </v-card>
+  </v-flex>
+  </v-layout>
+</template>
+<script>
+import axios from 'axios';
+
+export default {
+  name: 'Pelicula'
+  data(){
+    return {
+      pelicula:[],
+    };
+  },
+  mounted(){
+    this.obtenerPelicula();
+  },
+  methods: {
+    async obtenerPelicula(){
+      return axios({
+        method: 'get',
+        url: `http://localhost:8081/api/peliculas/${this.
+        $route.params.id}`,
+      })
+      .then((respuesta) => {
+        this.pelicula = respuesta.data;
+      })
+      .catch(() => {
+        
+      });
+    },
+  },
+};
+
 </script>
